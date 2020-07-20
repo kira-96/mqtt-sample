@@ -46,7 +46,7 @@ namespace server
 
         public int Port { get; private set; }
 
-        private Dictionary<string, string> users;
+        private readonly Dictionary<string, string> users;
 
         private SimpleServer()
         {
@@ -63,6 +63,7 @@ namespace server
             Port = port;
             MqttServerOptionsBuilder optionsBuilder = new MqttServerOptionsBuilder()
                 .WithDefaultEndpointPort(port)
+                .WithEncryptionSslProtocol(System.Security.Authentication.SslProtocols.Tls12)
                 .WithConnectionValidator((cv) =>
                 {
                     if (cv.ClientId.Length < 10)
